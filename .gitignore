@@ -1,0 +1,37 @@
+# 忽略 .specstory 整个文件夹
+.specstory/
+
+# work 文件夹中不应该提交的文件
+# Node.js 依赖
+work/node_modules/
+
+# 包锁定文件（可选，如果团队需要统一依赖版本可以保留）
+# work/package-lock.json
+
+# 日志文件
+work/*.log
+work/logs/
+work/npm-debug.log*
+work/yarn-debug.log*
+work/yarn-error.log*
+
+# 环境变量文件
+work/.env
+work/.env.local
+work/.env.*.local
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# IDE 配置文件（可选，根据团队需要）
+# .vscode/
+# .idea/
+# *.swp
+# *.swo
+# *~
+
+# 临时文件
+work/tmp/
+work/temp/
+work/*.tmp
