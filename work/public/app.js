@@ -237,12 +237,13 @@ socket.on('drawing_received', (data) => {
 
 socket.on('game_result', (data) => {
     gameResultEl.classList.remove('hidden');
+    // 使用 textContent 确保安全（已经使用，很好）
     if (data.correct) {
-        resultTextEl.textContent = `恭喜！答案正确：${data.correctWord}`;
+        resultTextEl.textContent = `恭喜！答案正确：${data.correctWord || ''}`;
         resultTextEl.className = 'text-xl font-bold text-green-600';
         gameResultEl.className = 'text-center p-4 rounded-lg mb-4 bg-green-100';
     } else {
-        resultTextEl.textContent = `很遗憾，答案错误。正确答案是：${data.correctWord}`;
+        resultTextEl.textContent = `很遗憾，答案错误。正确答案是：${data.correctWord || ''}`;
         resultTextEl.className = 'text-xl font-bold text-red-600';
         gameResultEl.className = 'text-center p-4 rounded-lg mb-4 bg-red-100';
     }
@@ -251,6 +252,13 @@ socket.on('game_result', (data) => {
     setTimeout(() => {
         resetGame();
     }, 3000);
+});
+
+// 添加错误处理
+socket.on('error', (data) => {
+    if (data && data.message) {
+        updateStatus(`错误: ${data.message}`);
+    }
 });
 
 // 更新UI根据角色
@@ -271,9 +279,14 @@ function updateUIForRole(role) {
     }
 }
 
-// 更新状态
+// 安全地更新状态（防止 XSS）
 function updateStatus(message) {
-    statusEl.innerHTML = `<span class="text-blue-800 font-semibold">${message}</span>`;
+    // 使用 textContent 而不是 innerHTML 来防止 XSS 攻击
+    const span = document.createElement('span');
+    span.className = 'text-blue-800 font-semibold';
+    span.textContent = message;
+    statusEl.innerHTML = ''; // 清空现有内容
+    statusEl.appendChild(span);
 }
 
 // 重置游戏

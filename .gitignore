@@ -35,3 +35,26 @@ Thumbs.db
 work/tmp/
 work/temp/
 work/*.tmp
+
+# 安全相关文件
+work/*.pem
+work/*.key
+work/*.p12
+work/*.pfx
+work/*.crt
+work/*.cer
+work/*.jks
+work/credentials.json
+work/secrets.json
+work/config.json
+
+# SSH 密钥（如果误放在项目目录）
+work/id_*
+work/*_rsa
+work/*_dsa
+work/*_ed25519
+
+# 备份文件
+work/*.bak
+work/*.backup
+work/*~
