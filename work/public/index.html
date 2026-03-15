@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw & Guess Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        canvas {
+            border: 2px solid #333;
+            cursor: crosshair;
+        }
+        canvas.eraser-mode {
+            cursor: crosshair;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl w-full">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Draw & Guess Game</h1>
+        
+        <!-- 状态指示器 -->
+        <div id="status" class="text-center mb-4 p-3 bg-blue-100 rounded-lg">
+            <span class="text-blue-800 font-semibold">等待玩家加入...</span>
+        </div>
+
+        <!-- 工具选择区域 -->
+        <div id="toolbar" class="mb-4 flex gap-2 justify-center hidden">
+            <button id="brushTool" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700">
+                画笔
+            </button>
+            <button id="eraserTool" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 active:bg-red-700">
+                选择擦除
+            </button>
+            <button id="clearCanvas" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 active:bg-gray-700">
+                清除画布
+            </button>
+            <button id="submitDrawing" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 active:bg-green-700 hidden">
+                完成并提交
+            </button>
+        </div>
+
+        <!-- 画布区域 -->
+        <div class="flex justify-center mb-4">
+            <canvas id="drawingCanvas" width="800" height="600"></canvas>
+        </div>
+
+        <!-- 显示接收到的图片（Guesser） -->
+        <div id="receivedImageContainer" class="hidden mb-4">
+            <div class="text-center mb-2">
+                <span class="text-lg font-semibold text-gray-700">请猜测这幅画的内容：</span>
+            </div>
+            <div class="flex justify-center">
+                <img id="receivedImage" class="border-2 border-gray-300 rounded" alt="接收到的绘画">
+            </div>
+        </div>
+
+        <!-- 猜测输入区域（Guesser） -->
+        <div id="guessSection" class="hidden mb-4">
+            <div class="flex gap-2 justify-center">
+                <input 
+                    type="text" 
+                    id="guessInput" 
+                    placeholder="输入你的猜测..." 
+                    class="px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 flex-1 max-w-md"
+                >
+                <button id="submitGuess" class="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 active:bg-purple-700">
+                    提交猜测
+                </button>
+            </div>
+        </div>
+
+        <!-- 游戏结果 -->
+        <div id="gameResult" class="hidden text-center p-4 rounded-lg mb-4">
+            <p id="resultText" class="text-xl font-bold"></p>
+        </div>
+
+        <!-- 单词设置（Painter，用于测试） -->
+        <div id="wordInputSection" class="hidden mb-4">
+            <div class="flex gap-2 justify-center">
+                <input 
+                    type="text" 
+                    id="wordInput" 
+                    placeholder="设置要画的单词（用于测试）..." 
+                    class="px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 flex-1 max-w-md"
+                >
+                <button id="setWord" class="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 active:bg-yellow-700">
+                    设置单词
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
